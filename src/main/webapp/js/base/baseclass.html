@@ -1,0 +1,54 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+
+Shape = function() {
+    this.id = null;
+    this.picture = null;
+    this.draw = function(canvas){
+        this.picture = "由父类产生的图像已经生成在画布上了";
+    };
+};
+
+CommonShape = function(){};
+CommonShape.prototype = new Shape();
+
+CrossFillShape = function(){
+  this.draw = function(canvas){
+    CrossFillShape.prototype.draw.apply(this, arguments);
+    this.picture = this.picture + ", 然后被子类 CrossFillShape 填充";
+  };
+};
+CrossFillShape.prototype = new Shape();
+
+SolidFillShape = function(){
+  this.draw = function(canvas){
+    SolidFillShape.prototype.draw.apply(this, arguments);
+    this.picture = this.picture + ", 然后被子类 SolidFillShape 填充";
+  };
+};
+SolidFillShape.prototype = new Shape();
+
+function test1() {
+  var s = new CommonShape();
+  s.draw();
+  console.debug(s.picture);
+
+  var cs = new CrossFillShape();
+  cs.draw();
+  console.debug(cs.picture);
+
+  var ss = new SolidFillShape();
+  ss.draw();
+  console.debug(ss.picture);
+}
+
+</script>
+</head>
+<body>
+<input type="button" value="test1" onclick="test1()"/><br/>
+
+实现继承类演示,点击button,请看打印输出
+</body>
+</html>
